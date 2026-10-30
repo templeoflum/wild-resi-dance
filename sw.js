@@ -1,6 +1,6 @@
 'use strict';
 // Network first, cache as the offline fallback. Same-origin only.
-const CACHE = 'wild-resi-dance-v1';
+const CACHE = 'wild-resi-dance-v2';
 const SHELL = [
   './', 'index.html', 'style.css', 'app.js', 'manifest.webmanifest',
   'icons/icon.svg', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png'

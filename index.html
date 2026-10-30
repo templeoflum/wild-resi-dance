@@ -19,11 +19,13 @@
 </head>
 <body>
 <main id="app">
+ <div class="col col-a">
   <header class="spine">
     <p class="chip">Wild Residence</p>
     <h1>Wild Resi-Dance</h1>
     <hr>
   </header>
+  <p id="turn" class="turn"><span class="turn-icon" aria-hidden="true">⟳</span> Turn sideways to see every control at once</p>
 
   <button id="play" class="play" type="button" aria-pressed="false">
     <span class="glyph" aria-hidden="true"></span><span class="label">Start</span>
@@ -39,6 +41,8 @@
     </div>
     <div class="chips" role="radiogroup" aria-label="Chord" id="chords"></div>
   </section>
+ </div>
+ <div class="col col-b">
 
   <section class="group" aria-labelledby="g-voices">
     <h2 id="g-voices">Voices</h2>
@@ -47,6 +51,8 @@
     <div class="chips two" role="radiogroup" aria-label="Noise colour" id="noiseTypes"></div>
     <div class="fader" data-key="pulse" aria-label="Pulse"></div>
   </section>
+ </div>
+ <div class="col col-c">
 
   <section class="group" aria-labelledby="g-tempo">
     <h2 id="g-tempo">Pulse rate</h2>
@@ -63,14 +69,17 @@
 
   <section class="group" aria-labelledby="g-tone">
     <h2 id="g-tone">Tone</h2>
-    <div class="fader" data-key="bright" aria-label="Bright"></div>
-    <div class="fader" data-key="space" aria-label="Space"></div>
+    <div class="pair">
+      <div class="fader" data-key="bright" aria-label="Bright"></div>
+      <div class="fader" data-key="space" aria-label="Space"></div>
+    </div>
   </section>
 
   <section class="group" aria-labelledby="g-out">
     <h2 id="g-out">Out</h2>
     <div class="fader master" data-key="master" aria-label="Master"></div>
   </section>
+ </div>
 </main>
 <audio id="out" playsinline></audio>
 <script src="app.js"></script>
