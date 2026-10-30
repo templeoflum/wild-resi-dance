@@ -9,6 +9,8 @@
     open:  { label: 'Open',  iv: [0, 7, 14] }
   };
   const NOISE_TYPES = { pink: 'Pink', brown: 'Brown' };
+  // pulse note values, slowest to fastest, as pulses per beat (¼ note = one per beat)
+  const LADDER = [[1 / 8, '2 bars'], [1 / 4, '1 bar'], [1 / 2, '½'], [1, '¼'], [2, '⅛'], [3, '⅛T']];
   const FADERS = { drone: 'Drone', noise: 'Noise', pulse: 'Pulse', bright: 'Bright', space: 'Space', master: 'Master' };
   const DEFAULTS = {
     root: 2, chord: 'fifth', noiseType: 'pink', bpm: 90, div: 1,
@@ -28,6 +30,7 @@
       if (CHORDS[j.chord]) s.chord = j.chord;
       if (NOISE_TYPES[j.noiseType]) s.noiseType = j.noiseType;
       if (typeof j.bpm === 'number' && isFinite(j.bpm)) s.bpm = Math.round(clamp(j.bpm, BPM_MIN, BPM_MAX));
+      if (LADDER.some(([v]) => v === j.div)) s.div = j.div;
     } catch (e) { /* storage unavailable */ }
     return s;
   }
@@ -461,6 +464,7 @@
     playBtn.querySelector('.label').textContent = playing ? 'Stop' : 'Start';
     $('rootName').textContent = NOTES[S.root];
     $('bpmVal').textContent = S.bpm;
+    $('divVal').textContent = LADDER.find(([v]) => v === S.div)[1];
     for (const b of document.querySelectorAll('[data-group]')) {
       b.setAttribute('aria-checked', String(String(S[b.dataset.group]) === b.dataset.value));
     }
@@ -558,19 +562,20 @@
   holdRepeat($('bpmDown'), () => setBpm(S.bpm - 1));
   holdRepeat($('bpmUp'), () => setBpm(S.bpm + 1));
 
-  // ½× and 2× halve or double the BPM itself; a press that would leave the range does nothing
-  function scaleBpm(f) {
-    const b = Math.round(S.bpm * f);
-    if (b < BPM_MIN || b > BPM_MAX) return;
-    setBpm(b);
+  // ½× and 2× step the pulse one note value along the ladder; at either end a press does nothing
+  function stepDiv(d) {
+    const i = LADDER.findIndex(([v]) => v === S.div) + d;
+    if (i < 0 || i >= LADDER.length) return;
+    S.div = LADDER[i][0];
+    setPulseRate(); save(); render();
   }
-  for (const [label, name, f] of [['½ ×', 'Halve BPM', 0.5], ['2 ×', 'Double BPM', 2]]) {
+  for (const [label, name, f] of [['½ ×', 'Slower pulse', -1], ['2 ×', 'Faster pulse', 1]]) {
     const b = document.createElement('button');
     b.type = 'button';
     b.className = 'chip-btn scale';
     b.setAttribute('aria-label', name);
     b.textContent = label;
-    b.addEventListener('click', () => scaleBpm(f));
+    b.addEventListener('click', () => stepDiv(f));
     $('divs').appendChild(b);
   }
 

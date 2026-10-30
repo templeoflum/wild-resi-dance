@@ -128,7 +128,7 @@ button { font: inherit; color: inherit; }
   font-variant-numeric: tabular-nums;
 }
 .readout.big { font-size: 30px; }
-.readout small { font-size: 13px; color: var(--dim); font-weight: 600; letter-spacing: .08em; }
+.readout small { font-size: 13px; color: var(--dim); font-weight: 600; letter-spacing: .08em; white-space: nowrap; }
 
 .beat {
   width: 14px; height: 14px;
@@ -249,7 +249,10 @@ button { font: inherit; color: inherit; }
   .readout { font-size: 20px; }
   .readout.big { font-size: 24px; }
   .readout small { font-size: 11px; }
-  .beat { width: 10px; height: 10px; }
+  .beat { width: 8px; height: 8px; position: absolute; top: 7px; right: 7px; }
+  #bpm { position: relative; gap: 6px; }
+  .tempo { grid-template-columns: 48px 1fr 48px; }
+  #bpm small { letter-spacing: .04em; }
   .tempo2 { grid-template-columns: 60px 1fr; gap: 6px; }
   .tap { font-size: 16px; }
   .chips { gap: 6px; }
