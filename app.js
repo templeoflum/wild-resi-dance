@@ -10,7 +10,8 @@
   };
   const NOISE_TYPES = { pink: 'Pink', brown: 'Brown' };
   // pulse note values, slowest to fastest, as pulses per beat (¼ note = one per beat)
-  const LADDER = [[1 / 8, '2 bars'], [1 / 4, '1 bar'], [1 / 2, '½'], [1, '¼'], [2, '⅛'], [3, '⅛T']];
+  const LADDER = [[1 / 32, '8 bars'], [1 / 16, '4 bars'], [1 / 8, '2 bars'], [1 / 4, '1 bar'], [1 / 2, '½'], [1, '¼'],
+    [2, '⅛'], [3, '⅛T'], [4, '1/16'], [8, '1/32'], [16, '1/64']];
   const FADERS = { drone: 'Drone', noise: 'Noise', pulse: 'Pulse', bright: 'Bright', space: 'Space', master: 'Master' };
   const DEFAULTS = {
     root: 2, chord: 'fifth', noiseType: 'pink', bpm: 90, div: 1,
@@ -618,7 +619,8 @@
       const p = (ph.p0 + (ctx.currentTime - ph.t0) * ph.hz) % 1;
       const sh = A.pw.shape;
       const v = (sh[Math.floor(p * sh.length)] - A.pw.lo) / (A.pw.hi - A.pw.lo);
-      beatEl.style.opacity = (0.15 + 0.85 * v).toFixed(3);
+      // above 8 pulses a second the light holds steady instead of flickering
+      beatEl.style.opacity = ph.hz > 8 ? '0.6' : (0.15 + 0.85 * v).toFixed(3);
     } else if (!playing) {
       beatEl.style.opacity = '0.15';
     }
