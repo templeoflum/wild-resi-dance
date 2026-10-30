@@ -187,6 +187,80 @@ button { font: inherit; color: inherit; }
 .fader.drag { border-color: var(--fill-hi); }
 .fader.drag .val { color: var(--text); }
 
+/* Column wrappers only matter in landscape; elsewhere the page reads as one column. */
+.col, .pair { display: contents; }
+
+/* "Turn sideways" hint: touch screens held upright only. */
+.turn { display: none; }
+@media (orientation: portrait) and (pointer: coarse) {
+  .turn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    font-size: 13px;
+    color: var(--dim);
+  }
+  .turn-icon { font-size: 18px; color: var(--accent); }
+}
+
+/* Landscape on a short screen: every control on one screen, three columns, no scrolling. */
+@media (orientation: landscape) and (max-height: 560px) {
+  #app {
+    max-width: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1.1fr;
+    gap: 12px;
+    padding: max(8px, env(safe-area-inset-top, 0px)) max(12px, env(safe-area-inset-right, 0px))
+             max(8px, env(safe-area-inset-bottom, 0px)) max(12px, env(safe-area-inset-left, 0px));
+  }
+  .col {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+    min-height: 0;
+  }
+  .group { display: contents; }
+  .group h2 { flex: none; margin: 2px 0 0; font-size: 11px; line-height: 13px; }
+
+  .spine { flex: none; display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 8px; }
+  .spine .chip { font-size: 10px; }
+  .spine h1 { margin: 0; font-size: 16px; white-space: nowrap; }
+  .spine hr { display: none; }
+
+  /* Every control row shares the column's height; never under 44px. */
+  .col .play, .col .stepper, .col .tempo, .col .tempo2, .col .chips, .col .fader, .col .pair {
+    flex: 1 1 0;
+    min-height: 44px;
+    max-height: 72px;
+  }
+  .col .play { flex-grow: 1.4; max-height: 96px; font-size: 20px; gap: 10px; }
+  .play .glyph { border-width: 10px 0 10px 17px; }
+  .play[aria-pressed="true"] .glyph { width: 17px; height: 17px; }
+  .wake { flex: none; padding: 6px; font-size: 13px; }
+
+  .btn, .chip-btn, .readout { min-height: 0; }
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .pair .fader { max-height: none; min-height: 0; }
+
+  .stepper, .tempo { grid-template-columns: 52px 1fr 52px; gap: 6px; }
+  .step { font-size: 24px; }
+  .readout { font-size: 20px; }
+  .readout.big { font-size: 24px; }
+  .readout small { font-size: 11px; }
+  .beat { width: 10px; height: 10px; }
+  .tempo2 { grid-template-columns: 60px 1fr; gap: 6px; }
+  .tap { font-size: 16px; }
+  .chips { gap: 6px; }
+  .chip-btn { font-size: 13px; padding: 0; }
+
+  .fader { height: auto; }
+  .fader .name, .fader .val { font-size: 15px; }
+  .fader .name { left: 10px; }
+  .fader .val { right: 10px; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; animation: none !important; }
 }
