@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; media-src 'self' blob: mediastream:; connect-src 'self'; manifest-src 'self'; worker-src 'self'">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#08080c">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Resi-Dance">
+<title>Wild Resi-Dance</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main id="app">
+  <header class="spine">
+    <p class="chip">Wild Residence</p>
+    <h1>Wild Resi-Dance</h1>
+    <hr>
+  </header>
+
+  <button id="play" class="play" type="button" aria-pressed="false">
+    <span class="glyph" aria-hidden="true"></span><span class="label">Start</span>
+  </button>
+  <p id="wake" class="wake" hidden>Audio paused · tap to resume</p>
+
+  <section class="group" aria-labelledby="g-key">
+    <h2 id="g-key">Key</h2>
+    <div class="stepper">
+      <button type="button" class="btn step" id="rootDown" aria-label="Root down">‹</button>
+      <output id="rootName" class="readout big" aria-live="polite">D</output>
+      <button type="button" class="btn step" id="rootUp" aria-label="Root up">›</button>
+    </div>
+    <div class="chips" role="radiogroup" aria-label="Chord" id="chords"></div>
+  </section>
+
+  <section class="group" aria-labelledby="g-voices">
+    <h2 id="g-voices">Voices</h2>
+    <div class="fader" data-key="drone" aria-label="Drone"></div>
+    <div class="fader" data-key="noise" aria-label="Noise"></div>
+    <div class="chips two" role="radiogroup" aria-label="Noise colour" id="noiseTypes"></div>
+    <div class="fader" data-key="pulse" aria-label="Pulse"></div>
+  </section>
+
+  <section class="group" aria-labelledby="g-tempo">
+    <h2 id="g-tempo">Pulse rate</h2>
+    <div class="tempo">
+      <button type="button" class="btn step" id="bpmDown" aria-label="Slower">−</button>
+      <output id="bpm" class="readout"><span id="bpmVal">90</span> <small>BPM</small><span id="beat" class="beat" aria-hidden="true"></span></output>
+      <button type="button" class="btn step" id="bpmUp" aria-label="Faster">+</button>
+    </div>
+    <div class="tempo2">
+      <button type="button" class="btn tap" id="tap">Tap</button>
+      <div class="chips three" role="radiogroup" aria-label="Pulses per beat" id="divs"></div>
+    </div>
+  </section>
+
+  <section class="group" aria-labelledby="g-tone">
+    <h2 id="g-tone">Tone</h2>
+    <div class="fader" data-key="bright" aria-label="Bright"></div>
+    <div class="fader" data-key="space" aria-label="Space"></div>
+  </section>
+
+  <section class="group" aria-labelledby="g-out">
+    <h2 id="g-out">Out</h2>
+    <div class="fader master" data-key="master" aria-label="Master"></div>
+  </section>
+</main>
+<audio id="out" playsinline></audio>
+<script src="app.js"></script>
+</body>
+</html>
