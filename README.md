@@ -9,7 +9,7 @@ Play it at https://templeoflum.github.io/wild-resi-dance/
 - **Start / Stop**: fades the sound in and out.
 - **Key**: root note (‹ ›) and chord: Fifth, Minor, Sus, Open.
 - **Voices**: Drone level, Noise level with Pink or Brown colour, and Pulse depth.
-- **Pulse rate**: BPM (− +, hold to run), Tap tempo, and ½ × / 2 × to step the pulse along note values (2 bars, 1 bar, ½, ¼, ⅛, ⅛ triplet; default ¼, one per beat), shown next to the BPM.
+- **Pulse rate**: BPM (− +, hold to run), Tap tempo, and ½ × / 2 × to step the pulse along note values (8 bars, 4 bars, 2 bars, 1 bar, ½, ¼, ⅛, ⅛ triplet, 1/16, 1/32, 1/64; default ¼, one per beat; the fast end is a buzz), shown next to the BPM.
 - **Tone**: Bright (filter) and Space (reverb and delay).
 - **Out**: Master level, into a gentle limiter.
 
