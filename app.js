@@ -9,7 +9,6 @@
     open:  { label: 'Open',  iv: [0, 7, 14] }
   };
   const NOISE_TYPES = { pink: 'Pink', brown: 'Brown' };
-  const DIVS = { '0.5': '½ ×', '1': '1 ×', '2': '2 ×' };
   const FADERS = { drone: 'Drone', noise: 'Noise', pulse: 'Pulse', bright: 'Bright', space: 'Space', master: 'Master' };
   const DEFAULTS = {
     root: 2, chord: 'fifth', noiseType: 'pink', bpm: 90, div: 1,
@@ -29,7 +28,6 @@
       if (CHORDS[j.chord]) s.chord = j.chord;
       if (NOISE_TYPES[j.noiseType]) s.noiseType = j.noiseType;
       if (typeof j.bpm === 'number' && isFinite(j.bpm)) s.bpm = Math.round(clamp(j.bpm, BPM_MIN, BPM_MAX));
-      if (DIVS[String(j.div)]) s.div = j.div;
     } catch (e) { /* storage unavailable */ }
     return s;
   }
@@ -499,7 +497,6 @@
   }
   makeChips($('chords'), 'chord', Object.entries(CHORDS).map(([k, c]) => [k, c.label]));
   makeChips($('noiseTypes'), 'noiseType', Object.entries(NOISE_TYPES));
-  makeChips($('divs'), 'div', [['0.5', DIVS['0.5']], ['1', DIVS['1']], ['2', DIVS['2']]]);
 
   // faders: relative drag, so a stray touch never jumps a level
   let dragging = 0;
@@ -560,6 +557,22 @@
   holdRepeat($('rootUp'), () => setRoot(1));
   holdRepeat($('bpmDown'), () => setBpm(S.bpm - 1));
   holdRepeat($('bpmUp'), () => setBpm(S.bpm + 1));
+
+  // ½× and 2× halve or double the BPM itself; a press that would leave the range does nothing
+  function scaleBpm(f) {
+    const b = Math.round(S.bpm * f);
+    if (b < BPM_MIN || b > BPM_MAX) return;
+    setBpm(b);
+  }
+  for (const [label, name, f] of [['½ ×', 'Halve BPM', 0.5], ['2 ×', 'Double BPM', 2]]) {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'chip-btn scale';
+    b.setAttribute('aria-label', name);
+    b.textContent = label;
+    b.addEventListener('click', () => scaleBpm(f));
+    $('divs').appendChild(b);
+  }
 
   // tap tempo: average the last few gaps, and start the swell on the tap
   const taps = [];
